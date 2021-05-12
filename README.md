@@ -18,6 +18,14 @@ Although talking about **less server management** would avoid a lot of weird fro
 
 # Resources
 
+Books
 - [Learning Serverless - Jason Katzer (O'Reilly)](https://www.oreilly.com/library/view/learning-serverless/9781492057000/)
 
-- [CNCF Serverless Working Group Github repo](https://github.com/cncf/wg-serverless)
+Gitrepo's:
+- [CNCF Serverless Working Group](https://github.com/cncf/wg-serverless)
+
+Papers/articles/blogs:
+- [CNCF WG-Serverless Whitepaper v1.0](https://github.com/cncf/wg-serverless/blob/master/whitepapers/serverless-overview/cncf_serverless_whitepaper_v1.0.pdf)
+
+Video's: -
+- [YOW! Conference 2018 - Peter Sbarski - Serverless in Practice](https://www.youtube.com/watch?v=oRuV9iXUg40&ab_channel=YOW%21Conferences)

@@ -1,0 +1,15 @@
+# Serverless 101
+
+- Speed of innovation over depth of customization
+- Deferred risk over extensive ownershop
+- Costs for actual use over costs for predicted use
+- Scalability by defaulf over scalability by design
+- Managed services over custom infrastructure
+
+To achieve  the benefits of serverless, you will have to change the way you create application.
+Going serverless is like adhering to a vegie lifestyle - instead of no meat, no custom infrastructure! 
+
+3party tools for serverless deployments
+Serverless Framework, Terraform, Pulumi, Claudia.js, Zappa, Architect
+
+AWS: Cloudformation, SAM, Cloud Development Kit

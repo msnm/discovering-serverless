@@ -1,0 +1,305 @@
+openapi: '3.0.2'
+info:
+  title: Message with a parcel API
+  version: '1.0'
+servers:
+  - url: https://api.server.test/v1
+paths:
+  /marcels:
+    post:
+      tags: 
+      - marcel
+      summary:  Creates a message with a parcel (marcel). If the response returns a 201 then the Marcel is in the draft state and ready to be send
+      operationId: createMarcel
+      requestBody:
+        content:
+          application/json; charset=utf-8:
+            schema:
+              $ref: '#/components/schemas/Marcel'
+      responses:
+        '201':
+          description: Absolute URI to the Marcel
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+                example: '/marcels/38c9ea2e-a202-4f59-ae5e-8a247d28b19a'
+        '400':
+          description: Bad or incomplete request
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: Not authorized to access this resource
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+
+
+  /marcels/{marcelId}:
+    parameters:
+      - in: path
+        name: marcelId
+        description: >-
+          The unique identifier of the marcel
+        schema:
+          type: string
+          format: uuid
+        required: true
+        example: '38c9ea2e-a202-4f59-ae5e-8a247d28b19a'
+    post:
+      tags: 
+      - marcel
+      summary:  Confirm that the Marcel can be send
+      operationId: sendMarcel
+      responses:
+        '202':
+          description: The Marcel has been accepted and the status of the Marcel can be consulted via the GET method.
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+                example: '/marcels/38c9ea2e-a202-4f59-ae5e-8a247d28b19a'
+        '400':
+          description: Bad or incomplete request
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: Not authorized to access this resource
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+    get:
+      tags: 
+      - marcel
+      summary:  Retrieve the details of the Marcel
+      operationId: findMarcel
+
+      responses:
+        '200':
+          description: The response contains the details of the Marcel
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Marcel'
+        '400':
+          description: Bad or incomplete request
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: Not authorized to access this resource
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+
+  /media/uploads:
+    get:
+      tags: 
+      - media
+      summary:  >- 
+        Before being able to upload content, an upload url needs to be retrieved from the cloud provider.
+        Also a unique identifier will be returned which is needed to reference the media file in other requests
+      operationId: requestUploadDestination
+      responses:
+        '200':
+          description: The response contains the details of the Marcel
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/UploadInstructions'
+        '400':
+          description: Bad or incomplete request
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/BadRequestResponse'
+        '403':
+          description: Not authorized to access this resource
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+components:
+  schemas:
+    UploadInstructions:
+     description: Displays the upload url and the unique id assigend to this upload
+     type: object
+     required:
+      - uploadUrl
+      - mediaId
+     properties:
+      uploadUrl:
+        type: string
+        format: uri
+        example: https://cloudprovider.com
+      mediaId:
+        type: string
+        format: uuid
+        example: a2fb79ae-7629-4948-8705-aa3968c12de7
+
+    Marcel:
+      type: object
+      required:
+      - message
+      - receiver
+      - parcel
+      properties:
+        marcelId:
+          type: string
+          readOnly: true
+          example: a2fb79ae-7629-4948-8705-aa3968c12de7
+        receiver:
+          $ref: '#/components/schemas/Receiver'
+        message:
+          $ref: '#/components/schemas/Message'
+        parcel:
+          $ref: '#/components/schemas/Parcel'
+        status:
+          type: string
+          pattern: 'DRAFT|NOTIFICATION_SEND|MEDIA_SEND|FAILED'
+
+    Status:
+      type: object
+      properties:
+        statusParcel:
+          type: string
+          pattern: 'SEND, DELIVERED'
+        statusMarcel:
+          type: string
+          pattern: 'DRAFT, NOTIFICATION_SEND, MESSAGE_DELIVERED, MESSAGE_OPENED'
+         
+    Message:
+      type: object
+      required:
+        - mediaId
+        - notificationMessage
+        - occasion
+      properties:
+        occasion:
+          description: The occasion why the user is sending this gift (birthday, new born, appreciation at work, good recovery after hospitalization)
+          type: string
+          example: birthday
+        notificationMessage:
+          description: >- 
+            The actual text that is sent to notify the recipient that a marcel is on its way. The message must be base64 encoded.
+          type: string
+          format: base64
+          example: SGV5IFNhbQoKQSBnb29kIGZyaWVuZCBmcm9tIHlvdXIgaG9ja2V5IHRlYW0gaGFzIHNlbnQgeW91IGEgZ2lmdCBmb3IgeW91ciBiaXJ0aGRheSB2aWEgbWVzc2FnZXdpdGhhcGFyY2VsLmNvbS4gCgpZb3UgY2FuIGZvbGxvdyB0aGUgZGVsaXZlcnkgb2YgeW91ciBzdXJwcmlzZSBnaWZ0IHZpYSB0aGUgZm9sbG93aW5nIHVybC4gCgpPbiB0aGUgZGF5IHlvdXIgZ2lmdCBhcnJpdmVzIHlvdSB3aWxsIHJlY2VpdmUgYSB2aWRlbyBtZXNzYWdlIGZyb20gdXMgd2hlcmUgeW91ciBmcmllbmQgd2lsbCBiZSByZXZlYWxlZCBhbmQgd2h5IHlvdSBkZXNlcnZlIHRoaXMgZ2lmdCEgCgpFbmpveSB0aGUgaGFwcHkgd2FpdGluZywgYW5kIGRvIG5vdCBmb3JnZXQgdG8gY2hlY2sgaWYgeW91ciBzaGlwcGluZyBhZGRyZXNzIGlzIGNvcnJlY3Q6IEcuIFZhbiBEZXIgTGluZGVubGFhbiAxOTEgMjAwMCBBbnR3ZXJwLiBJZiBub3QgbGV0IHVzIGtub3cgaGVyZS4KCldlIHdpc2ggeW91IGEgSGFwcHkgYmlydGhkYXkhIAoKVGVhbSBNZXNzYWdlIHdpdGggYSBwYXJjZWwgb3IganVzdCBNYXJjZWw=
+        mediaId: 
+          description: >- 
+           The uuid of the video/song/picture that was uploaded that needs to be attached to the Parcel.
+          type: string
+          format: uuid
+          example: a2fb79ae-7629-4948-8705-aa3968c12de7
+
+    Parcel:
+      type: object
+      required:
+        - trackingCode
+        - parcelProvider
+        - webshopUrl
+      properties:
+        trackingCode:
+          type: string
+          description: The tracking code of the parcel provider
+        parcelProvider:
+          type: string
+          example: DPD
+        webshopUrl:
+          type: string
+          example: www.mynewplant-shop.be
+
+    Receiver:
+      type: object
+      required:
+        - firstname
+        - lastname
+        - prefferedLanguage
+      properties: 
+        firstname:
+          type: string
+          example: Sam
+        lastname: 
+          type: string
+          example: Peeters
+        communicationChannel:
+          oneOf:
+          - $ref: '#/components/schemas/EmailChannel'
+          - $ref: '#/components/schemas/SmsChannel'
+            discriminator:
+              propertyName: channelType
+
+
+    EmailChannel:
+      type: object
+      required:
+        - channelType
+        - email
+      properties:
+        channelType:
+          type: string
+          pattern: EmailChannel
+          example: EmailChannel
+        email:
+          type: string
+          format: email
+          example: sam@hotmail.com
+
+    SmsChannel:
+      type: object
+      required:
+        - channelType
+        - phoneNumber
+      properties:
+        channelType:
+          type: string
+          pattern: SmsChannel
+          example: SmsChannel
+        phoneNumber:
+          type: string
+          example: 0032489785689
+
+    BadRequestResponse:
+      type: object
+      properties:
+        lang:
+          type: string
+        code:
+          type: string
+        reason:
+          type: string
+        message:
+          type: string
+      required:
+        - lang
+        - code
+        - reason
+        - message
+    
+
+    ForbiddenResponse:
+      type: object
+      properties:
+        lang:
+          type: string
+        code:
+          type: string
+        reason:
+          type: string
+        message:
+          type: string
+      required:
+        - lang
+        - code
+        - reason
+        - message

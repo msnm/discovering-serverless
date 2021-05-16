@@ -1,0 +1,10 @@
+# Scaffolding the Angular application
+
+Based on this [article](https://medium.com/@tomastrajan/how-to-build-epic-angular-app-with-clean-architecture-91640ed1656)
+
+``` 
+ng new webapp --create-application false --strict
+cd webapp
+npm i
+ng g application marcel --prefix marcel --style scss --routing
+```

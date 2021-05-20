@@ -9,7 +9,7 @@ When you frowned when hearing the the term **serverless** you are not alone in t
 Although talking about **less server management** would avoid a lot of weird frowns when trying to explain this relatively new paradigm, it certainly does not encompass its true nature. Therefore let's discover **serverless archtiectures** while building a proof of concept for a potential startup idea called Message with a parcel or just MARCEL!
 
 # Table of contents
-- [Serverless 101](docs/1-introduction-to-serverless-computing)
+- [Serverless 101](docs/1-serverless-101)
 - Message with a parcel distilled
 - TDB
 

@@ -1,5 +1,7 @@
 # Serverless 101
 
+## Definition
+
 Serverless computing, also commonly known as **Function as a Service** or **Faas**,
 is the fourth revolution of the cloud computing industry. According to the Cloud Native Computing Foundation (CNCF) serverless computing means the following:
 
@@ -13,11 +15,13 @@ Serversless computing goes against the idea of **idling servers** with applicati
 
 Provisioning, monitoring, patching and scaling servers does also not exist in a serverless world. In fact just like toll roads you only pay for the moment you drive on the tollroad and you do not need to worry about maintaining the road infrastructure. Unlike serverless,toll roads do no scale infinitely when the traffic spikes.
 
-Being able to shift most of your resources to focus on coding business logic for your digital products. The fact that you only pay for the time your application is running and knowing that it scales infinitely by default is a very powerfull premise! Does this mean that servers do not exist anymore? No, the responsibility of provisioning and managing servers is shifted even more towards the cloud providers like AWS, Microsoft Azure, Google Cloud etc.
+Being able to shift most of your resources to focus on coding business logic for your digital products. The fact that you only pay for the time your application is running and knowing that it scales infinitely by default is a very powerfull premise!
+
+Does this mean that servers do not exist anymore? No, the responsibility of provisioning and managing servers is shifted even more towards the cloud providers like AWS, Microsoft Azure, Google Cloud etc.
 
 ![Cloud computing revolutions](images/cloud_computing_revolutions.png "Cloud computing revolutions")
 
-The above diagram s
+The above diagram is 
 The first revolution in Serverless computing
 
 

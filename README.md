@@ -6,15 +6,12 @@ When you frowned when hearing the the term **serverless** you are not alone in t
 - Software engineer: "Wohoo, writing code, and deploying code without the hassle of managing servers sounds like a dream, no more waiting on the devops team" 
 - Infra/Ops engineer: "Ohnoo, what a fool! Or what if this is true? Ohnoo I don't want to end up coding all day long, that's my worst nightmare!"
 
-Although talking about **less server management** would avoid a lot of weird frowns when trying to explain this relatively new paradigm, it certainly does not encompass its true nature. Therefore let's discover **serverless archtiectures** while building a proof of concept for a potential startup idea!
-
-The goal of the idea is to improve the experience of sending gifts bought online to friends, familiy and foes. One of the main features will be to attach a notifying email that a gift is on its way without reveiling the senders identity. Once the parcel is arrived a personal video is send why this persons deserves this gift.
-
+Although talking about **less server management** would avoid a lot of weird frowns when trying to explain this relatively new paradigm, it certainly does not encompass its true nature. Therefore let's discover **serverless archtiectures** while building a proof of concept for a potential startup idea called Message with a parcel or just MARCEL!
 
 # Table of contents
 - [Serverless 101](docs/1-introduction-to-serverless-computing)
-- What will we build: Message with a parcel
-- Getting started with the Serverless Framework
+- Message with a parcel distilled
+- TDB
 
 
 # Resources
